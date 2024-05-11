@@ -19,8 +19,9 @@ jobs:
 
     - name: Determine changed files
       id: changed_files
-      run: echo "::set-output name=files::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})"
-        
+      run: |
+         git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.php$' | tr '\n' ' ' | xargs echo "::set-output name=files::"
+         
     - uses: php-actions/phpstan@v3
       with:
         php_version: 8.1
