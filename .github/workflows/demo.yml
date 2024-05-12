@@ -20,7 +20,7 @@ jobs:
     - name: Determine changed files
       id: changed_files
       run: |
-        git diff --name-only HEAD^ HEAD | grep '\.php$'
+        echo "::set-output name=files::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.php$' | paste -sd , -)"     
         
     - uses: php-actions/phpstan@v3
       with:
